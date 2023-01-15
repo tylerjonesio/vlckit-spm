@@ -16,7 +16,7 @@ If using this in a swift package, add this repo as a dependency.
 
 ### Usage
 
-To get started, import this library: `import VLCKit`
+To get started, import this library: `import VLCKitSPM`
 
 See the [VLCKit documentation](https://videolan.videolan.me/VLCKit/) for more info on integration and usage for VLCKit.
 

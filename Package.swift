@@ -3,75 +3,39 @@
 
 import PackageDescription
 
-let macPackage = Target.binaryTarget(name: "VLCKit-binary", url: "https://github.com/tylerjonesio/vlckit-spm/releases/download/v0.0.1/VLCKit.xcframework.zip", checksum: "8eda0c00fa4d01e66f292dc67b9743653859466ee7fa0daa637e5f91c6e95f21")
-let iOSPackage = Target.binaryTarget(name: "MobileVLCKit-binary", url: "https://github.com/tylerjonesio/vlckit-spm/releases/download/v0.0.1/MobileVLCKit.xcframework.zip", checksum: "730b5dcf98a3ce09cc9afd0aee16da76e96e46d9684da2a2b30eb0c33280d668")
-let tvPackage = Target.binaryTarget(name: "TVVLCKit-binary", url: "https://github.com/tylerjonesio/vlckit-spm/releases/download/v0.0.1/TVVLCKit.xcframework.zip", checksum: "97ca877127a4cf85af9e3881118e0ca0c9a9bd3a40c87a5aee27d8e4736bdad4")
+let vlcBinary = Target.binaryTarget(name: "VLCKit-all", url: "https://github.com/tylerjonesio/vlckit-spm/releases/download/v0.0.1/VLCKit-all.xcframework.zip", checksum: "755b313b535c9782efcfa186b31cb038b584d3220259906884b03b5f8c8bbbd3")
 
 let package = Package(
     name: "vlckit-spm",
+    platforms: [.macOS(.v10_13), .iOS(.v11), .tvOS(.v11)],
     products: [
         .library(
-            name: "MobileVLCKit",
-            type: .dynamic,
-            targets: ["MobileVLCKit"]),
-        .library(
-            name: "VLCKit",
-            type: .dynamic,
-            targets: ["VLCKit"]),
-        .library(
-            name: "TVVLCKit",
-            type: .dynamic,
-            targets: ["TVVLCKit"]),
+            name: "VLCKitSPM",
+            targets: ["VLCKitSPM"]),
     ],
     dependencies: [],
     targets: [
-        iOSPackage,
+        .binaryTarget(name: "VLCKit-all", path: ".tmp/VLCKit-all.xcframework"),
         .target(
-            name: "MobileVLCKit",
+            name: "VLCKitSPM",
             dependencies: [
-                .byName(name: "MobileVLCKit-binary")
+                .target(name: "VLCKit-all")
             ], linkerSettings: [
-                .linkedFramework("QuartzCore"),
-                .linkedFramework("CoreText"),
-                .linkedFramework("AVFoundation"),
-                .linkedFramework("Security"),
-                .linkedFramework("CFNetwork"),
-                .linkedFramework("AudioToolbox"),
-                .linkedFramework("OpenGLES"),
-                .linkedFramework("CoreGraphics"),
-                .linkedFramework("VideoToolbox"),
-                .linkedFramework("CoreMedia"),
-                .linkedLibrary("c++"),
-                .linkedLibrary("xml2"),
-                .linkedLibrary("z"),
-                .linkedLibrary("bz2"),
-                .linkedLibrary("iconv")
-            ]),
-        macPackage,
-        .target(
-            name: "VLCKit",
-            dependencies: [
-                .byName(name: "VLCKit-binary")
-            ], linkerSettings: [
-                .linkedFramework("Foundation"),
-                .linkedLibrary("iconv")
-            ]),
-        tvPackage,
-        .target(
-            name: "TVVLCKit",
-            dependencies: [
-                .byName(name: "TVVLCKit-binary")
-            ], linkerSettings: [
-                .linkedFramework("CoreText"),
-                .linkedFramework("AVFoundation"),
-                .linkedFramework("AudioToolbox"),
-                .linkedFramework("OpenGLES"),
-                .linkedFramework("VideoToolbox"),
-                .linkedFramework("CoreMedia"),
-                .linkedLibrary("c++"),
-                .linkedLibrary("xml2"),
-                .linkedLibrary("z"),
-                .linkedLibrary("bz2"),
+                .linkedFramework("QuartzCore", .when(platforms: [.iOS])),
+                .linkedFramework("CoreText", .when(platforms: [.iOS, .tvOS])),
+                .linkedFramework("AVFoundation", .when(platforms: [.iOS, .tvOS])),
+                .linkedFramework("Security", .when(platforms: [.iOS])),
+                .linkedFramework("CFNetwork", .when(platforms: [.iOS])),
+                .linkedFramework("AudioToolbox", .when(platforms: [.iOS, .tvOS])),
+                .linkedFramework("OpenGLES", .when(platforms: [.iOS, .tvOS])),
+                .linkedFramework("CoreGraphics", .when(platforms: [.iOS])),
+                .linkedFramework("VideoToolbox", .when(platforms: [.iOS, .tvOS])),
+                .linkedFramework("CoreMedia", .when(platforms: [.iOS, .tvOS])),
+                .linkedLibrary("c++", .when(platforms: [.iOS, .tvOS])),
+                .linkedLibrary("xml2", .when(platforms: [.iOS, .tvOS])),
+                .linkedLibrary("z", .when(platforms: [.iOS, .tvOS])),
+                .linkedLibrary("bz2", .when(platforms: [.iOS, .tvOS])),
+                .linkedFramework("Foundation", .when(platforms: [.macOS])),
                 .linkedLibrary("iconv")
             ]),
     ]
