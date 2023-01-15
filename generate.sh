@@ -2,7 +2,7 @@
 #
 rm -rf .tmp/ || true
 
-TAG_VERSION="v0.0.2"
+TAG_VERSION="v3.5.1"
 IOS_URL="https://download.videolan.org/pub/cocoapods/prod/MobileVLCKit-3.5.1-34408b84-e9eceaed.tar.xz"
 MACOS_URL="https://download.videolan.org/pub/cocoapods/prod/VLCKit-3.5.1-34408b84-e9eceaed.tar.xz"
 TVOS_URL="https://download.videolan.org/cocoapods/prod/TVVLCKit-3.5.1-34408b84-e9eceaed.tar.xz"
