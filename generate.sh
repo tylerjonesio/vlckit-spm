@@ -2,10 +2,10 @@
 #
 rm -rf .tmp/ || true
 
-TAG_VERSION="v3.5.1"
-IOS_URL="https://download.videolan.org/pub/cocoapods/prod/MobileVLCKit-3.5.1-34408b84-e9eceaed.tar.xz"
-MACOS_URL="https://download.videolan.org/pub/cocoapods/prod/VLCKit-3.5.1-34408b84-e9eceaed.tar.xz"
-TVOS_URL="https://download.videolan.org/cocoapods/prod/TVVLCKit-3.5.1-34408b84-e9eceaed.tar.xz"
+TAG_VERSION="v3.6.0.b10"
+IOS_URL="https://download.videolan.org/pub/cocoapods/unstable/MobileVLCKit-3.6.0b10-615f96dc-4733d1cc.tar.xz"
+MACOS_URL="https://download.videolan.org/pub/cocoapods/unstable/VLCKit-3.6.0b10-615f96dc-4733d1cc.tar.xz"
+TVOS_URL="https://download.videolan.org/cocoapods/unstable/TVVLCKit-3.6.0b10-615f96dc-4733d1cc.tar.xz"
 
 mkdir .tmp/
 
@@ -16,8 +16,6 @@ tar -xf .tmp/MobileVLCKit.tar.xz -C .tmp/
 #Download and generate VLCKit
 wget -O .tmp/VLCKit.tar.xz $MACOS_URL
 tar -xf .tmp/VLCKit.tar.xz -C .tmp/
-#Special case to include missing header file
-cp ".tmp/MobileVLCKit-binary/MobileVLCKit.xcframework/ios-arm64_i386_x86_64-simulator/MobileVLCKit.framework/Headers/VLCDialogProvider.h" ".tmp/VLCKit - binary package/VLCKit.xcframework/macos-arm64_x86_64/VLCKit.framework/Headers/VLCDialogProvider.h"
 
 #Download and generate TVVLCKit
 wget -O .tmp/TVVLCKit.tar.xz $TVOS_URL
