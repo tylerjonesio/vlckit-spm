@@ -6,12 +6,12 @@ It distributes and bundles VLCKit for iOS, macOS and tvOS as a single Swift Pack
 ### Installation
 Add this repo to as a Swift Package dependency to your project
 ```
-https://github.com/tylerjonesio/vlckit-spm
+https://github.com/koombea/vlckit-spm
 ```
 
 If using this in a swift package, add this repo as a dependency.
 ```
-.package(url: "https://github.com/tylerjonesio/vlckit-spm/", .upToNextMajor(from: "3.5.1"))
+.package(url: "https://github.com/koombea/vlckit-spm", .upToNextMajor(from: "3.6.0"))
 ```
 
 ### Usage
