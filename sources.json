@@ -1,0 +1,31 @@
+{
+  "version": "3.7.4",
+  "upstreamWrapper": {
+    "repository": "https://github.com/tylerjonesio/vlckit-spm",
+    "revision": "e932bbd488872fdb74f6654d28c2f291eae03daf"
+  },
+  "vlckitRevision": "54bba6d95502d0f3f7a9da581727935b21d55fb2",
+  "artifacts": [
+    {
+      "platformPackage": "MobileVLCKit",
+      "sourceURL": "https://artifacts.videolan.org/VLCKit/MobileVLCKit/MobileVLCKit-3.7.4-54bba6d9-6de05adc.tar.xz",
+      "file": "MobileVLCKit-3.7.4-54bba6d9-6de05adc.tar.xz",
+      "bytes": 232866224,
+      "sha256": "281a996fd234fd1909737d7afa552c3656f8c90c4e0504befd833a221fe8cf7a"
+    },
+    {
+      "platformPackage": "TVVLCKit",
+      "sourceURL": "https://artifacts.videolan.org/VLCKit/TVVLCKit/TVVLCKit-3.7.4-54bba6d9-6de05adc.tar.xz",
+      "file": "TVVLCKit-3.7.4-54bba6d9-6de05adc.tar.xz",
+      "bytes": 131072876,
+      "sha256": "795fe8104694447b56e837a9a962dcda9a1e526a5fc8e0e5f1898e4cfcc3a649"
+    },
+    {
+      "platformPackage": "VLCKit",
+      "sourceURL": "https://artifacts.videolan.org/VLCKit/VLCKit/VLCKit-3.7.4-54bba6d9-6de05adc.tar.xz",
+      "file": "VLCKit-3.7.4-54bba6d9-6de05adc.tar.xz",
+      "bytes": 95603452,
+      "sha256": "5d4c41d515a9deeaf800a95222341ba03aa1d0d56c16a9b9b5f2b7246e2959a0"
+    }
+  ]
+}

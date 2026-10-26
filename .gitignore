@@ -91,3 +91,9 @@ iOSInjectionProject/
 .DS_STORE
 .tmp/
 .swiftpm/
+
+# Generated VLCKit packaging artifacts
+Artifacts/
+.cache/
+__pycache__/
+.DS_Store

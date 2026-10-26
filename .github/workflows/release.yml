@@ -1,0 +1,64 @@
+name: Publish VLCKit binary
+
+on:
+  push:
+    branches:
+      - update-vlckit-3.7.4
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test packaging
+        run: python3 -B scripts/test_prepare.py
+      - name: Prepare official binaries
+        run: ./generate.sh --zip
+      - name: Prepare manifest and release tag
+        env:
+          RELEASE_TAG: 3.7.4
+          RELEASE_REPOSITORY: ${{ github.repository }}
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, os, pathlib, re
+          version = json.loads(pathlib.Path('sources.json').read_text())['version']
+          assert os.environ['RELEASE_TAG'] == version, 'Tag differs from pinned version'
+          manifest = pathlib.Path('Package.swift').read_text()
+          expected_url = f"https://github.com/{os.environ['RELEASE_REPOSITORY']}/releases/download/{version}/VLCKit-all.xcframework.zip"
+          assert expected_url in manifest, 'Manifest release URL differs from this repository/tag'
+          expected = re.search(r'checksum:\s*"([0-9a-f]{64})"', manifest).group(1)
+          sha = hashlib.sha256()
+          with pathlib.Path('Artifacts/VLCKit-all.xcframework.zip').open('rb') as stream:
+              while data := stream.read(1024 * 1024):
+                  sha.update(data)
+          print(f'Archive SHA256: {sha.hexdigest()} (previous manifest: {expected})')
+          pathlib.Path('Package.swift').write_text(manifest.replace(expected, sha.hexdigest()))
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add Package.swift
+          if ! git diff --cached --quiet; then
+            git commit -m "Record release archive checksum for $RELEASE_TAG"
+            git push origin "HEAD:$GITHUB_REF_NAME"
+          fi
+          git tag -a "$RELEASE_TAG" -m "VLCKit $RELEASE_TAG official binary packaging"
+          git push origin "$RELEASE_TAG"
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: 3.7.4
+        run: |
+          gh release create "$RELEASE_TAG" \
+            Artifacts/VLCKit-all.xcframework.zip \
+            Artifacts/VLCKit-all.xcframework.zip.sha256 \
+            sources.json \
+            --verify-tag \
+            --title "VLCKit $RELEASE_TAG" \
+            --notes "Swift Package Manager packaging of official VideoLAN binaries. Includes iOS, tvOS and macOS device/simulator slices and available debug symbols. Source archive provenance and SHA256 pins are in sources.json."
